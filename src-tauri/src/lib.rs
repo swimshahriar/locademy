@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::fs;
+use std::io::{Read, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 use tauri::Manager;
 
@@ -320,10 +321,137 @@ fn rescan_course(app: tauri::AppHandle, course_id: String) -> Result<Course, Str
     Ok(updated)
 }
 
+fn url_decode(s: &str) -> String {
+    let mut out = Vec::new();
+    let bytes = s.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let (Some(h), Some(l)) = (
+                (bytes[i + 1] as char).to_digit(16),
+                (bytes[i + 2] as char).to_digit(16),
+            ) {
+                out.push((h * 16 + l) as u8);
+                i += 3;
+                continue;
+            }
+        }
+        out.push(bytes[i]);
+        i += 1;
+    }
+    String::from_utf8_lossy(&out).to_string()
+}
+
+fn parse_range(header: &str, total: u64) -> Option<(u64, u64)> {
+    let range = header.strip_prefix("bytes=")?;
+    let mut parts = range.splitn(2, '-');
+    let start_str = parts.next()?;
+    let end_str = parts.next()?;
+
+    if start_str.is_empty() {
+        let suffix: u64 = end_str.parse().ok()?;
+        let start = total.saturating_sub(suffix);
+        Some((start, total - 1))
+    } else {
+        let start: u64 = start_str.parse().ok()?;
+        let end = if end_str.is_empty() {
+            total - 1
+        } else {
+            end_str.parse().ok()?
+        };
+        if start > end || start >= total {
+            return None;
+        }
+        Some((start, std::cmp::min(end, total - 1)))
+    }
+}
+
+fn video_mime(path: &Path) -> &'static str {
+    match path
+        .extension()
+        .and_then(|e| e.to_str())
+        .unwrap_or("")
+        .to_lowercase()
+        .as_str()
+    {
+        "mp4" | "m4v" => "video/mp4",
+        "webm" => "video/webm",
+        "mkv" => "video/x-matroska",
+        "avi" => "video/x-msvideo",
+        "mov" => "video/quicktime",
+        "wmv" => "video/x-ms-wmv",
+        "flv" => "video/x-flv",
+        "mpg" | "mpeg" => "video/mpeg",
+        "3gp" => "video/3gpp",
+        "ogv" => "video/ogg",
+        "ts" => "video/mp2t",
+        _ => "application/octet-stream",
+    }
+}
+
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
+        .register_uri_scheme_protocol("stream", |_app, request| {
+            let raw = request.uri().path();
+            let raw = raw.strip_prefix('/').unwrap_or(raw);
+            let decoded = url_decode(raw);
+            let file_path = PathBuf::from(&decoded);
+
+            let Ok(mut file) = fs::File::open(&file_path) else {
+                return tauri::http::Response::builder()
+                    .status(404)
+                    .body(Vec::new())
+                    .unwrap();
+            };
+
+            let Ok(meta) = file.metadata() else {
+                return tauri::http::Response::builder()
+                    .status(500)
+                    .body(Vec::new())
+                    .unwrap();
+            };
+
+            let total = meta.len();
+            let mime = video_mime(&file_path);
+
+            let range_header = request
+                .headers()
+                .get("range")
+                .and_then(|v| v.to_str().ok())
+                .unwrap_or("");
+
+            if let Some((start, end)) = parse_range(range_header, total) {
+                let len = end - start + 1;
+                let _ = file.seek(SeekFrom::Start(start));
+                let mut buf = vec![0u8; len as usize];
+                let _ = file.read_exact(&mut buf);
+
+                return tauri::http::Response::builder()
+                    .status(206)
+                    .header("Content-Type", mime)
+                    .header("Content-Length", len.to_string())
+                    .header(
+                        "Content-Range",
+                        format!("bytes {}-{}/{}", start, end, total),
+                    )
+                    .header("Accept-Ranges", "bytes")
+                    .body(buf)
+                    .unwrap();
+            }
+
+            let mut buf = Vec::new();
+            let _ = file.read_to_end(&mut buf);
+
+            tauri::http::Response::builder()
+                .status(200)
+                .header("Content-Type", mime)
+                .header("Content-Length", total.to_string())
+                .header("Accept-Ranges", "bytes")
+                .body(buf)
+                .unwrap()
+        })
         .invoke_handler(tauri::generate_handler![
             get_courses,
             add_course,

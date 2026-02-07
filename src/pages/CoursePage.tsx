@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { ArrowLeft, RefreshCw } from "lucide-react";
+import { ArrowLeft, RefreshCw, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Sidebar } from "../components/Sidebar";
 import { VideoPlayer } from "../components/VideoPlayer";
 import { ProgressBar } from "../components/ProgressBar";
@@ -15,6 +15,7 @@ interface Props {
 export function CoursePage({ course, onBack, onUpdate }: Props) {
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const [rescanning, setRescanning] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const allVideos = useMemo(
     () => course.modules.flatMap((m) => m.videos),
@@ -82,6 +83,17 @@ export function CoursePage({ course, onBack, onUpdate }: Props) {
         >
           <ArrowLeft className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
         </button>
+        <button
+          onClick={() => setSidebarOpen((v) => !v)}
+          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+        >
+          {sidebarOpen ? (
+            <PanelLeftClose className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
+          ) : (
+            <PanelLeftOpen className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
+          )}
+        </button>
         <div className="flex-1 min-w-0">
           <h1 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 truncate">
             {course.title}
@@ -109,13 +121,19 @@ export function CoursePage({ course, onBack, onUpdate }: Props) {
       </header>
 
       <div className="flex-1 flex overflow-hidden">
-        <aside className="w-80 border-r border-zinc-200 dark:border-zinc-800 shrink-0 overflow-hidden">
-          <Sidebar
-            modules={course.modules}
-            activeVideoId={activeVideoId}
-            onSelectVideo={handleSelectVideo}
-            onToggleComplete={handleToggleComplete}
-          />
+        <aside
+          className={`border-r border-zinc-200 dark:border-zinc-800 shrink-0 overflow-hidden transition-all duration-200 ${
+            sidebarOpen ? "w-80" : "w-0 border-r-0"
+          }`}
+        >
+          <div className="w-80 h-full">
+            <Sidebar
+              modules={course.modules}
+              activeVideoId={activeVideoId}
+              onSelectVideo={handleSelectVideo}
+              onToggleComplete={handleToggleComplete}
+            />
+          </div>
         </aside>
 
         <main className="flex-1 p-6 overflow-y-auto">
