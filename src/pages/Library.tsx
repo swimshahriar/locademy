@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Plus, Heart, Github } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Heart, Github, FolderUp } from "lucide-react";
 import { open, ask } from "@tauri-apps/plugin-dialog";
 import { open as openUrl } from "@tauri-apps/plugin-shell";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import { CourseCard } from "../components/CourseCard";
 import { EmptyState } from "../components/EmptyState";
 import { addCourse, removeCourse } from "../lib/commands";
@@ -15,17 +16,12 @@ interface Props {
 
 export function Library({ courses, onRefresh, onOpenCourse }: Props) {
   const [adding, setAdding] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
-  const handleAdd = async () => {
+  const addFolder = async (path: string) => {
     try {
-      const selected = await open({
-        directory: true,
-        title: "Select Course Folder",
-      });
-      if (!selected) return;
-
       setAdding(true);
-      await addCourse(selected);
+      await addCourse(path);
       await onRefresh();
     } catch (err) {
       console.error(err);
@@ -33,6 +29,37 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
       setAdding(false);
     }
   };
+
+  const handleAdd = async () => {
+    const selected = await open({
+      directory: true,
+      title: "Select Course Folder",
+    });
+    if (!selected) return;
+    await addFolder(selected);
+  };
+
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    getCurrentWindow()
+      .onDragDropEvent((event) => {
+        const { type, paths } = event.payload as { type: string; paths?: string[] };
+        if (type === "enter" || type === "over") {
+          setIsDragOver(true);
+        } else if (type === "drop" && paths?.length) {
+          setIsDragOver(false);
+          addFolder(paths[0]);
+        } else {
+          setIsDragOver(false);
+        }
+      })
+      .then((fn) => {
+        unlisten = fn;
+      });
+    return () => {
+      unlisten?.();
+    };
+  }, [onRefresh]);
 
   const handleDelete = async (course: Course) => {
     const confirmed = await ask(
@@ -56,19 +83,17 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
             Your local course library
           </p>
         </div>
-        {courses.length > 0 && (
-          <button
-            onClick={handleAdd}
-            disabled={adding}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-lg font-medium transition-colors text-sm cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            {adding ? "Adding..." : "Add Course"}
-          </button>
-        )}
+        <button
+          onClick={handleAdd}
+          disabled={adding}
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-lg font-medium transition-colors text-sm cursor-pointer"
+        >
+          <Plus className="w-4 h-4" />
+          {adding ? "Adding..." : "Add folder"}
+        </button>
       </header>
 
-      <main className="flex-1 overflow-y-auto p-6">
+      <main className="flex-1 overflow-y-auto p-6 relative">
         {courses.length === 0 ? (
           <EmptyState onAdd={handleAdd} />
         ) : (
@@ -82,6 +107,15 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
                 onDelete={() => handleDelete(course)}
               />
             ))}
+          </div>
+        )}
+
+        {isDragOver && (
+          <div className="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-500/20 border-2 border-dashed border-indigo-500 rounded-xl flex items-center justify-center z-10 pointer-events-none">
+            <div className="flex flex-col items-center gap-3 text-indigo-600 dark:text-indigo-400">
+              <FolderUp className="w-16 h-16" />
+              <p className="text-lg font-medium">Drop folder to add</p>
+            </div>
           </div>
         )}
       </main>
