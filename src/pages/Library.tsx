@@ -80,7 +80,7 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
             Locademy
           </h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Your local course library
+            Your local video library
           </p>
         </div>
         <button
