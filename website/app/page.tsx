@@ -7,13 +7,12 @@ import {
   PlayCircle,
   Shield,
   Star,
-  Github,
   Heart,
   BookOpen,
 } from "lucide-react";
 import { getRepo, getReleases } from "@/lib/github";
 import { DownloadSection } from "@/components/DownloadSection";
-import { ThemeSwitch } from "@/components/ThemeSwitch";
+import { NavLinks } from "@/components/NavLinks";
 
 const FEATURES = [
   {
@@ -66,34 +65,13 @@ export default async function HomePage() {
             <span>Locademy</span>
           </Link>
           <nav className="flex items-center gap-4">
-            <a
-              href="#download"
-              className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-            >
-              Download
-            </a>
-            <a
-              href="#features"
-              className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-            >
-              Features
-            </a>
-            <ThemeSwitch />
-            <Link
-              href="https://github.com/swimshahriar/locademy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              GitHub
-            </Link>
+            <NavLinks />
           </nav>
         </div>
       </header>
 
       <main className="flex-1">
-        <section className="relative overflow-hidden">
+        <section className="relative overflow-hidden min-h-screen min-h-[100dvh] flex flex-col justify-center">
           <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 via-transparent to-transparent dark:from-violet-500/10" />
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 mb-8 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-0.5">
@@ -132,6 +110,46 @@ export default async function HomePage() {
                   {repo.forks_count} forks
                 </span>
               )}
+            </div>
+          </div>
+        </section>
+
+        <section id="demo" className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 md:py-24 scroll-mt-16">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent dark:via-violet-500/10 pointer-events-none" />
+          <div className="text-center mb-10">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-violet-500 dark:text-violet-400 mb-3">
+              Product demo
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+              See it in action
+            </h2>
+            <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm md:text-base max-w-md mx-auto">
+              Watch how Locademy turns a folder into a clean, browsable course.
+            </p>
+          </div>
+          <div className="relative group">
+            <div className="absolute -inset-0.5 rounded-[1.25rem] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-violet-500 opacity-60 dark:opacity-80 blur-sm group-hover:opacity-90 transition-opacity" />
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-700/80 bg-slate-900 shadow-2xl">
+              <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/90 dark:bg-slate-950/95 border-b border-slate-700/50">
+                <div className="flex gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
+                </div>
+                <span className="flex-1 text-center text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  Locademy
+                </span>
+                <div className="w-14" />
+              </div>
+              <video
+                className="w-full aspect-video bg-slate-950"
+                src="/product_overview.mov"
+                controls
+                playsInline
+                preload="metadata"
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </section>

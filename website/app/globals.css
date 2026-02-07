@@ -4,3 +4,66 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Mobile nav drawer: smooth open/close */
+@keyframes mobile-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes mobile-drawer-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes mobile-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mobile-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.mobile-drawer--open,
+.mobile-drawer--close {
+  will-change: transform;
+}
+
+.mobile-drawer--open {
+  animation: mobile-drawer-in 0.28s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.mobile-drawer--close {
+  animation: mobile-drawer-out 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.mobile-backdrop--open,
+.mobile-backdrop--close {
+  will-change: opacity;
+}
+
+.mobile-backdrop--open {
+  animation: mobile-backdrop-in 0.28s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.mobile-backdrop--close {
+  animation: mobile-backdrop-out 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}

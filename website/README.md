@@ -21,5 +21,3 @@ Open [http://localhost:3000](http://localhost:3000).
 1. Import the **same repo** (locademy) in Vercel.
 2. Set **Root Directory** to `website`.
 3. Deploy. Vercel will run `npm install` and `npm run build` inside `website/` only.
-
-Optional: add `app-icon.png` from the repo root as `website/public/icon.png` and swap the hero “L” block for a Next.js `Image` pointing to `/icon.png` if you want the app icon on the landing page.
