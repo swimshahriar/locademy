@@ -79,13 +79,13 @@ export function CoursePage({ course, onBack, onUpdate }: Props) {
       <header className="flex items-center gap-4 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 shrink-0">
         <button
           onClick={onBack}
-          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
         </button>
         <button
           onClick={() => setSidebarOpen((v) => !v)}
-          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
           title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
         >
           {sidebarOpen ? (
@@ -111,7 +111,7 @@ export function CoursePage({ course, onBack, onUpdate }: Props) {
         <button
           onClick={handleRescan}
           disabled={rescanning}
-          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
           title="Rescan folder"
         >
           <RefreshCw

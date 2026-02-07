@@ -43,7 +43,7 @@ export function CourseCard({ course, index, onOpen, onDelete }: Props) {
 
       <div className="p-4">
         <button
-          className="w-full text-left font-semibold text-zinc-900 dark:text-zinc-100 mb-1 truncate block hover:text-indigo-500 transition-colors"
+          className="w-full text-left font-semibold text-zinc-900 dark:text-zinc-100 mb-1 truncate block hover:text-indigo-500 transition-colors cursor-pointer"
           onClick={onOpen}
           title={course.title}
         >
@@ -80,7 +80,7 @@ export function CourseCard({ course, index, onOpen, onDelete }: Props) {
               e.stopPropagation();
               onDelete();
             }}
-            className="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-md transition-colors"
+            className="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-md transition-colors cursor-pointer"
             title="Remove course"
           >
             <Trash2 className="w-4 h-4" />

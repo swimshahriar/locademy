@@ -60,7 +60,7 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
           <button
             onClick={handleAdd}
             disabled={adding}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-lg font-medium transition-colors text-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-lg font-medium transition-colors text-sm cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             {adding ? "Adding..." : "Add Course"}
@@ -95,7 +95,7 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
             <button
               type="button"
               onClick={() => openUrl("https://swimshahriar.dev")}
-              className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 underline underline-offset-2"
+              className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 underline underline-offset-2 cursor-pointer"
             >
               Shahriar
             </button>
@@ -104,7 +104,7 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
           <button
             type="button"
             onClick={() => openUrl("https://github.com/swimshahriar/locademy")}
-            className="flex items-center gap-1 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 underline underline-offset-2"
+            className="flex items-center gap-1 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 underline underline-offset-2 cursor-pointer"
             title="Star & contribute on GitHub"
           >
             <Github className="w-3.5 h-3.5" />

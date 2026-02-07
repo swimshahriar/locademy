@@ -40,7 +40,7 @@ export function Sidebar({
             <div key={module.id}>
               <button
                 onClick={() => toggle(module.id)}
-                className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-left"
+                className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-left cursor-pointer"
               >
                 {isCollapsed ? (
                   <ChevronRight className="w-4 h-4 text-zinc-400 shrink-0" />
@@ -77,7 +77,7 @@ export function Sidebar({
                       >
                         <button
                           onClick={() => onToggleComplete(video.id)}
-                          className="shrink-0"
+                          className="shrink-0 cursor-pointer"
                         >
                           {video.completed ? (
                             <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
@@ -89,7 +89,7 @@ export function Sidebar({
                         </button>
                         <button
                           onClick={() => onSelectVideo(video)}
-                          className="flex-1 min-w-0 text-left"
+                          className="flex-1 min-w-0 text-left cursor-pointer"
                         >
                           <span
                             className={`text-sm block truncate ${

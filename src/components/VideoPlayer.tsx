@@ -74,7 +74,7 @@ export function VideoPlayer({ video, onEnded, onNext, onPrev }: Props) {
           <button
             onClick={onPrev ?? undefined}
             disabled={!onPrev}
-            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
             title="Previous"
           >
             <SkipBack className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
@@ -82,14 +82,14 @@ export function VideoPlayer({ video, onEnded, onNext, onPrev }: Props) {
           <button
             onClick={onNext ?? undefined}
             disabled={!onNext}
-            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
             title="Next"
           >
             <SkipForward className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
           </button>
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
             title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
           >
             {isFullscreen ? (

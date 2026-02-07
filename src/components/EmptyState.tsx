@@ -16,7 +16,7 @@ export function EmptyState({ onAdd }: Props) {
       </p>
       <button
         onClick={onAdd}
-        className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium transition-colors"
+        className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium transition-colors cursor-pointer"
       >
         Add Course Folder
       </button>
