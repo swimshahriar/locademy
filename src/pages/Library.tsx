@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Heart, Github } from "lucide-react";
 import { open, ask } from "@tauri-apps/plugin-dialog";
+import { open as openUrl } from "@tauri-apps/plugin-shell";
 import { CourseCard } from "../components/CourseCard";
 import { EmptyState } from "../components/EmptyState";
 import { addCourse, removeCourse } from "../lib/commands";
@@ -84,6 +85,33 @@ export function Library({ courses, onRefresh, onOpenCourse }: Props) {
           </div>
         )}
       </main>
+
+      <footer className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-800 shrink-0">
+        <div className="text-xs text-zinc-500 dark:text-zinc-400 text-center flex items-center justify-center gap-1.5 flex-wrap">
+          <span className="flex items-center gap-1">
+            Made with
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+            by{" "}
+            <button
+              type="button"
+              onClick={() => openUrl("https://swimshahriar.dev")}
+              className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 underline underline-offset-2"
+            >
+              Shahriar
+            </button>
+          </span>
+          <span className="text-zinc-400 dark:text-zinc-500">·</span>
+          <button
+            type="button"
+            onClick={() => openUrl("https://github.com/swimshahriar/locademy")}
+            className="flex items-center gap-1 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 underline underline-offset-2"
+            title="Star & contribute on GitHub"
+          >
+            <Github className="w-3.5 h-3.5" />
+            GitHub
+          </button>
+        </div>
+      </footer>
     </div>
   );
 }
