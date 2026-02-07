@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { getRepo, getReleases } from "@/lib/github";
 import { DownloadSection } from "@/components/DownloadSection";
+import { ThemeSwitch } from "@/components/ThemeSwitch";
 
 const FEATURES = [
   {
@@ -64,7 +65,7 @@ export default async function HomePage() {
             />
             <span>Locademy</span>
           </Link>
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center gap-4">
             <a
               href="#download"
               className="text-sm text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
@@ -77,6 +78,7 @@ export default async function HomePage() {
             >
               Features
             </a>
+            <ThemeSwitch />
             <Link
               href="https://github.com/swimshahriar/locademy"
               target="_blank"
