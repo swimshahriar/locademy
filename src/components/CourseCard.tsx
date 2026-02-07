@@ -81,7 +81,7 @@ export function CourseCard({ course, index, onOpen, onDelete }: Props) {
               onDelete();
             }}
             className="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-md transition-colors cursor-pointer"
-            title="Remove course"
+            title="Remove folder"
           >
             <Trash2 className="w-4 h-4" />
           </button>
