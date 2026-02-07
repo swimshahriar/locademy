@@ -72,6 +72,19 @@ My Course/
 
 **System player fallback:** mp4, mkv, webm, avi, mov, wmv, flv, m4v, mpg, mpeg, 3gp, ogv, ts — any format your OS can handle
 
+## Releases (GitHub)
+
+Pushing a version tag builds installers and creates a draft GitHub release:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The [Release](.github/workflows/release.yml) workflow runs on tags `v*`, builds for **macOS** (Intel + Apple Silicon), **Windows**, and **Linux**, then creates a draft release with the installers attached. Open the release on GitHub, edit the notes if needed, and publish.
+
+**Required:** In the repo go to **Settings → Actions → General**, under "Workflow permissions" choose **Read and write permissions** so the workflow can create releases.
+
 ## App Icon
 
 To replace the default icon, put your 1024x1024 PNG at the project root as `app-icon.png` and run:
