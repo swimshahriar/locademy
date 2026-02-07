@@ -89,19 +89,6 @@ The [Release](.github/workflows/release.yml) workflow runs on tags `v*`, builds 
 
 **Required:** In the repo go to **Settings → Actions → General**, under "Workflow permissions" choose **Read and write permissions** so the workflow can create releases.
 
-**macOS DMG (avoid "damaged" / "Open Anyway"):** For open-source distribution outside the App Store, sign and notarize with a **Developer ID Application** certificate so users can open the DMG without Gatekeeper blocking it. Add these [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
-
-| Secret | Description |
-|--------|-------------|
-| `APPLE_CERTIFICATE` | Base64 of your `.p12` (e.g. `openssl base64 -A -in cert.p12 -out cert.txt`) |
-| `APPLE_CERTIFICATE_PASSWORD` | Password for the `.p12` export |
-| `APPLE_SIGNING_IDENTITY` | Signing identity (e.g. `Developer ID Application: Your Name (TEAM_ID)`) — from `security find-identity -v -p codesigning` |
-| `APPLE_ID` | Apple ID email used for notarization |
-| `APPLE_PASSWORD` | [App-specific password](https://support.apple.com/en-ca/HT204397) for that Apple ID |
-| `APPLE_TEAM_ID` | Team ID from [developer.apple.com/account](https://developer.apple.com/account#MembershipDetailsCard) |
-
-See [Tauri: Code signing macOS](https://tauri.app/v1/guides/distribution/sign-macos/) for creating the Developer ID certificate and exporting the `.p12`. Without these secrets, macOS builds still run but the DMG will be unsigned and users may see "damaged" until they use **Open Anyway** in System Settings → Privacy & Security.
-
 ## How to set up on every platform
 
 After [downloading](https://github.com/swimshahriar/locademy/releases) the installer for your OS:

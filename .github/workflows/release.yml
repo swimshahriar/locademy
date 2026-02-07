@@ -51,19 +51,13 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      # macOS: set these GitHub Secrets so the app is code-signed and notarized.
-      # Without them, Gatekeeper will show "damaged" and users must use "Open Anyway".
-      # See: https://tauri.app/v1/guides/distribution/sign-macos/
+      # To code-sign and notarize macOS builds, add the Apple secrets in repo Settings
+      # and the APPLE_* env vars here (see README). Leaving them unset produces an
+      # unsigned DMG (users can "Open Anyway" in System Settings → Privacy & Security).
       - name: Build and release
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: Locademy ${{ github.ref_name }}
