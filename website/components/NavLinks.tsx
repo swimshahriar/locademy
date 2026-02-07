@@ -8,6 +8,7 @@ import { useEffect, useState, useRef } from "react";
 const SECTIONS = [
   { href: "#demo", label: "Demo" },
   { href: "#download", label: "Download" },
+  { href: "#setup", label: "Setup" },
   { href: "#features", label: "Features" },
 ] as const;
 

@@ -85,9 +85,32 @@ git tag v0.1.0
 git push origin v0.1.0
 ```
 
-The [Release](.github/workflows/release.yml) workflow runs on tags `v*`, builds for **macOS** (Intel + Apple Silicon), **Windows**, and **Linux**, then creates a draft release with the installers attached. Open the release on GitHub, edit the notes if needed, and publish.
+The [Release](.github/workflows/release.yml) workflow runs on tags `v*`, builds for **macOS** (x64 only — runs on both Intel and Apple Silicon via Rosetta), **Windows**, and **Linux**, then creates a draft release with the installers attached. Open the release on GitHub, edit the notes if needed, and publish.
 
 **Required:** In the repo go to **Settings → Actions → General**, under "Workflow permissions" choose **Read and write permissions** so the workflow can create releases.
+
+**macOS DMG (avoid "damaged" / "Open Anyway"):** For open-source distribution outside the App Store, sign and notarize with a **Developer ID Application** certificate so users can open the DMG without Gatekeeper blocking it. Add these [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
+
+| Secret | Description |
+|--------|-------------|
+| `APPLE_CERTIFICATE` | Base64 of your `.p12` (e.g. `openssl base64 -A -in cert.p12 -out cert.txt`) |
+| `APPLE_CERTIFICATE_PASSWORD` | Password for the `.p12` export |
+| `APPLE_SIGNING_IDENTITY` | Signing identity (e.g. `Developer ID Application: Your Name (TEAM_ID)`) — from `security find-identity -v -p codesigning` |
+| `APPLE_ID` | Apple ID email used for notarization |
+| `APPLE_PASSWORD` | [App-specific password](https://support.apple.com/en-ca/HT204397) for that Apple ID |
+| `APPLE_TEAM_ID` | Team ID from [developer.apple.com/account](https://developer.apple.com/account#MembershipDetailsCard) |
+
+See [Tauri: Code signing macOS](https://tauri.app/v1/guides/distribution/sign-macos/) for creating the Developer ID certificate and exporting the `.p12`. Without these secrets, macOS builds still run but the DMG will be unsigned and users may see "damaged" until they use **Open Anyway** in System Settings → Privacy & Security.
+
+## How to set up on every platform
+
+After [downloading](https://github.com/swimshahriar/locademy/releases) the installer for your OS:
+
+| Platform | Setup |
+|----------|--------|
+| **macOS** | Download the **x64** `.dmg`. Open it, drag Locademy to Applications. On first open, if macOS says the app is from an unidentified developer: **System Settings → Privacy & Security** → find Locademy and click **Open Anyway**. (The single x64 build runs on both Intel and Apple Silicon via Rosetta.) |
+| **Windows** | Download the `.msi` or `.exe` installer. Run it and follow the installer steps. |
+| **Linux** | **AppImage:** download, make executable (`chmod +x Locademy-*.AppImage`), then run it. **.deb:** install with `sudo dpkg -i Locademy_*.deb` (or your package manager). |
 
 ## App Icon
 

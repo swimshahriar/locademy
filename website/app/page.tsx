@@ -9,6 +9,9 @@ import {
   Star,
   Heart,
   BookOpen,
+  Apple,
+  Monitor,
+  Terminal,
 } from "lucide-react";
 import { getRepo, getReleases } from "@/lib/github";
 import { DownloadSection } from "@/components/DownloadSection";
@@ -150,6 +153,65 @@ export default async function HomePage() {
         </section>
 
         <DownloadSection releases={releases} />
+
+        <section
+          id="setup"
+          className="max-w-5xl mx-auto px-4 sm:px-6 py-20 scroll-mt-16 border-t border-slate-200 dark:border-slate-800"
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
+            How to set up on every platform
+          </h2>
+          <p className="text-center text-slate-600 dark:text-slate-400 mb-10 max-w-xl mx-auto">
+            After downloading the installer for your OS, follow these steps.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                  <Apple className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                </div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">
+                  macOS
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Download the <strong className="text-slate-700 dark:text-slate-300">x64</strong>{" "}
+                .dmg. Open it, drag Locademy to Applications. If macOS blocks the app:{" "}
+                <strong className="text-slate-700 dark:text-slate-300">System Settings → Privacy &amp; Security</strong>{" "}
+                → click <strong className="text-slate-700 dark:text-slate-300">Open Anyway</strong> for Locademy. The x64 build runs on both Intel and Apple Silicon.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                  <Monitor className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                </div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">
+                  Windows
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Download the .msi or .exe installer. Run it and follow the installer steps.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/30 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                  <Terminal className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                </div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">
+                  Linux
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <strong className="text-slate-700 dark:text-slate-300">AppImage:</strong> make executable{" "}
+                <code className="text-xs bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded">chmod +x *.AppImage</code>
+                , then run. <strong className="text-slate-700 dark:text-slate-300">.deb:</strong>{" "}
+                <code className="text-xs bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded">sudo dpkg -i *.deb</code>.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 py-20 scroll-mt-16">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">

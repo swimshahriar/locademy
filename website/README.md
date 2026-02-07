@@ -3,7 +3,8 @@
 Landing page for [Locademy](https://github.com/swimshahriar/locademy). Built with Next.js and Tailwind.
 
 - **Star count** and **forks** from GitHub API
-- **Download** buttons from the latest GitHub Release (macOS, Windows, Linux)
+- **Download** buttons from the latest GitHub Release (macOS x64, Windows, Linux)
+- **How to set up on every platform** — install steps for macOS, Windows, and Linux
 - Cached every 60s to stay within API limits
 
 ## Run locally
