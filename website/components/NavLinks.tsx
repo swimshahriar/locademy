@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Menu, X } from "lucide-react";
+import { Github, Menu, Star, X } from "lucide-react";
 import { ThemeSwitch } from "@/components/ThemeSwitch";
 import { useEffect, useState, useRef } from "react";
 
@@ -67,7 +67,11 @@ function NavLinkItem({
   );
 }
 
-export function NavLinks() {
+interface NavLinksProps {
+  starCount?: number | null;
+}
+
+export function NavLinks({ starCount }: NavLinksProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [closing, setClosing] = useState(false);
@@ -141,6 +145,12 @@ export function NavLinks() {
         >
           <Github className="w-4 h-4" />
           GitHub
+          {starCount != null && (
+            <span className="inline-flex items-center gap-1">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span>{starCount.toLocaleString()}</span>
+            </span>
+          )}
         </Link>
       </div>
 
@@ -200,6 +210,12 @@ export function NavLinks() {
               >
                 <Github className="w-4 h-4" />
                 GitHub
+                {starCount != null && (
+                  <span className="inline-flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    {starCount.toLocaleString()}
+                  </span>
+                )}
               </Link>
             </nav>
           </div>

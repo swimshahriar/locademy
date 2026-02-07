@@ -65,7 +65,7 @@ export default async function HomePage() {
             <span>Locademy</span>
           </Link>
           <nav className="flex items-center gap-4">
-            <NavLinks />
+            <NavLinks starCount={repo?.stargazers_count} />
           </nav>
         </div>
       </header>
@@ -94,17 +94,12 @@ export default async function HomePage() {
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3">
-              {repo && (
-                <Link
-                  href="https://github.com/swimshahriar/locademy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-200/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-slate-300/80 dark:hover:bg-slate-700/80 text-sm font-medium transition-colors"
-                >
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  <span>{repo.stargazers_count.toLocaleString()} stars</span>
-                </Link>
-              )}
+              <a
+                href="#download"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 text-white hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-sm font-medium transition-colors"
+              >
+                Download
+              </a>
               {repo && repo.forks_count > 0 && (
                 <span className="text-sm text-slate-500 dark:text-slate-400">
                   {repo.forks_count} forks
